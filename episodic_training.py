@@ -20,6 +20,13 @@ import shutil
 
 import os
 
+with open("config/training_config.yaml", "r") as stream:
+    try:
+        config = (yaml.safe_load(stream))
+    except yaml.YAMLError as exc:
+        print(exc)
+
+print(len(config))
 
 def sample_data():
     classes = os.listdir(r'C:/DTU/fsl_paper/maritime-fsl/data/data_2023/val_2023/')
