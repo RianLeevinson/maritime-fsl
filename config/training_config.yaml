@@ -1,0 +1,16 @@
+N_SHOT: 5 # Number of images per class
+N_QUERY: 5 # Number of images per class in the query set
+N_TRAINING_EPISODES: 2000
+
+filename_pth: models/backbone/model_partial_resnet18_fsl_2_class_cuda_100_v1.pth
+
+data_2023: C:\DTU\fsl_paper\maritime-fsl\data\data_2023\data_2023
+
+model_save_path: C:\DTU\fsl_paper\maritime-fsl\models\custom\proto_5_v2.pth
+
+
+
+data_mean: [0.4609, 0.4467, 0.4413]
+data_std: [0.1314, 0.1239, 0.1198]
+
+BACKBONE: custom
