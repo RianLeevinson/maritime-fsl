@@ -127,3 +127,14 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+.venv39
+
+data
+
+models
+
+config
+
+utilities
