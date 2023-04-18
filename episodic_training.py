@@ -16,31 +16,13 @@ from tqdm import tqdm
 from torch import optim
 from easyfsl.utils import sliding_average
 
-import shutil
+training_config_path = 'config/training_config.yaml'
 
-import os
 
-with open("config/training_config.yaml", "r") as stream:
-    try:
-        config = (yaml.safe_load(stream))
-    except yaml.YAMLError as exc:
-        print(exc)
 
-print(len(config))
+from utilities.util_functions import config_loader
 
-def sample_data():
-    classes = os.listdir(r'C:/DTU/fsl_paper/maritime-fsl/data/data_2023/val_2023/')
-
-    for i in classes:
-
-        dirpath = f'C:/DTU/fsl_paper/maritime-fsl/data/data_2023/data_2023/{i}/'
-        destDirectory = f'C:/DTU/fsl_paper/maritime-fsl/data/proto_data/{i}/'
-
-        filenames = random.sample(os.listdir(dirpath), 5)
-        for fname in filenames:
-            srcpath = os.path.join(dirpath, fname)
-            shutil.copy(srcpath, destDirectory)
-
+training_config = config_loader(training_config_path)
 
 IMAGE_SIZE = 224
 
@@ -87,7 +69,6 @@ N_SHOT = 1 # Number of images per class
 N_QUERY = 1 # Number of images per class in the query set
 N_TRAINING_EPISODES = 2000
 
-BACKBONE = 'pre'
 
 train_data.labels = train_data.targets
 train_sampler = TaskSampler(
@@ -193,8 +174,9 @@ class PrototypicalNetworkModel(nn.Module):
         return scores
 
 
-if BACKBONE == 'custom':
-    filename_pth = 'models/backbone/model_partial_resnet18_fsl_2_class_cuda_100_v1.pth'
+if training_config['BACKBONE'] == 'custom':
+    filename_pth = training_config['BACKBONE_PATH']
+
     convolutional_network = resnet18(pretrained=False)
     convolutional_network.fc = nn.Flatten()
     convolutional_network.load_state_dict(torch.load(filename_pth))
